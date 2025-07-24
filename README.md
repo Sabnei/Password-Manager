@@ -17,7 +17,7 @@ Un gestor de contraseñas sencillo y seguro en Python, que almacena tus credenci
 
 1. **Clona el repositorio:**
    ```bash
-   git clone https://github.com/tuusuario/Password-Manager.git
+   git clone https://github.com/Sabnei/Password-Manager.git
    cd Password-Manager
    ```
 2. **Instala las dependencias:**
