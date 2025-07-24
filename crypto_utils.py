@@ -36,13 +36,13 @@ def derive_key(master_password: str, salt: bytes):
 def encrypt_data(data: dict, key: bytes):
     aesgcm = AESGCM(key)
     nonce = os.urandom(12)
-    json_data = json.dump(data).encode()
+    json_data = json.dumps(data).encode()
     ciphertext = aesgcm.encrypt(nonce, json_data, None)
     return base64.b64encode(nonce + ciphertext).decode()
 
 
 def decrypt_data(encrypted_data: str, key: bytes):
-    raw_data = base64.b64decode(encrypt_data.encode())
+    raw_data = base64.b64decode(encrypted_data.encode())
     nonce, ciphertext = raw_data[:12], raw_data[12:]
     aesgcm = AESGCM(key)
     json_data = aesgcm.decrypt(nonce, ciphertext, None)

@@ -1,4 +1,6 @@
 import argparse
+import getpass
+from crypto_utils import derive_key, get_salt
 from manager import add_password, get_password, list_services, delete_password
 from utils import generate_password
 
@@ -32,12 +34,16 @@ generate_parser.add_argument(
 
 args = parser.parse_args()
 
+master_password = getpass.getpass("Clave maestra: ")
+salt = get_salt()
+key = derive_key(master_password, salt)
+
 if args.command == "add":
-    add_password(args.service, args.username, args.password)
+    add_password(args.service, args.username, args.password, key)
     print(f"[+]Contraseña agregada para {args.service}")
 
 elif args.command == "get":
-    record = get_password(args.service)
+    record = get_password(args.service, key)
     if record:
         print(f"Usuario: {record['username']}")
         print(f"Contraseña: {record['password']}")
@@ -45,7 +51,7 @@ elif args.command == "get":
         print(f"[-] Contraseña no encontrada para {args.service}")
 
 elif args.command == "list":
-    services = list_services()
+    services = list_services(key)
     if services:
         print("Servicios almacenados:")
         for service in services:
@@ -54,7 +60,7 @@ elif args.command == "list":
         print("[-] No hay servicios registrados")
 
 elif args.command == "delete":
-    if delete_password(args.service):
+    if delete_password(args.service, key):
         print(f"[+] Contraseña eliminada para {args.service}")
     else:
         print(f"[-] Contraseña no encontrada para {args.service}")
