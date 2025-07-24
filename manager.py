@@ -8,7 +8,10 @@ def load_data():
     if not os.path.exists(FILE_PATH):
         return {}
     with open(FILE_PATH, "r") as file:
-        return json.load(file)
+        try:
+            return json.load(file)
+        except json.JSONDecodeError:
+            return {}
 
 
 def save_data(data):
