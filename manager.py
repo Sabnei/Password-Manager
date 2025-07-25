@@ -6,13 +6,6 @@ FILE_PATH = "storage.json"
 
 
 def load_data(key):
-    # if not os.path.exists(FILE_PATH):
-    #     return {}
-    # with open(FILE_PATH, "r") as file:
-    #     try:
-    #         return json.load(file)
-    #     except json.JSONDecodeError:
-    #         return {}
     return load_encrypted(key)
 
 
